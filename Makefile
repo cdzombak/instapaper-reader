@@ -4,15 +4,12 @@ VERSION=0.0.1
 IP_URL="https://instapaper.com/u"
 define BUILD_FLAGS
 -n "Instapaper Reader" \
--i ./instapaper_app_logo.icns \
 --internal-urls "^https:\\/\\/(www\\.)?instapaper.com\\/?.*" \
 --disable-dev-tools \
 --min-width 375 \
 --min-height 600 \
 --width 850 \
 --height 1050 \
---fast-quit \
---darwin-dark-mode-support \
 --app-version ${VERSION}
 endef
 
@@ -34,6 +31,9 @@ clean-mac:  ## Clean mac build directory
 build-mac: clean-mac check-deps  ## Build app for macOS/x64
 	mkdir ./mac
 	nativefier ${IP_URL} ${BUILD_FLAGS} \
+		-i ./instapaper_app_logo.icns \
+		--fast-quit \
+		--darwin-dark-mode-support \
 		-p mac -a x64 ./mac
 
 .PHONY: install-mac
