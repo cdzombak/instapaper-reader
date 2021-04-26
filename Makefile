@@ -1,6 +1,6 @@
 SHELL:=/usr/bin/env bash
 
-VERSION=0.0.1
+VERSION=1.0.0
 IP_URL="https://instapaper.com/u"
 define BUILD_FLAGS
 -n "Instapaper Reader" \
@@ -10,7 +10,10 @@ define BUILD_FLAGS
 --min-height 600 \
 --width 850 \
 --height 1050 \
---app-version ${VERSION}
+--app-version ${VERSION} \
+-i ./instapaper_app_logo.icns \
+--fast-quit \
+--darwin-dark-mode-support
 endef
 
 default: help
@@ -23,19 +26,15 @@ help:
 check-deps:  ## Verify build dependencies are installed
 	@command -v nativefier >/dev/null 2>&1 || echo "[!] Missing nativefier: npm install -g nativefier"
 
-.PHONY: clean-mac
-clean-mac:  ## Clean mac build directory
-	rm -rf ./mac
+.PHONY: clean
+clean:  ## Clean build output directory
+	rm -rf ./out
 
-.PHONY: build-mac
-build-mac: clean-mac check-deps  ## Build app for macOS/x64
-	mkdir ./mac
-	nativefier ${IP_URL} ${BUILD_FLAGS} \
-		-i ./instapaper_app_logo.icns \
-		--fast-quit \
-		--darwin-dark-mode-support \
-		-p mac -a x64 ./mac
+.PHONY: build
+build: clean check-deps  ## Build app for the current platform
+	mkdir ./out
+	nativefier ${IP_URL} ${BUILD_FLAGS} ./out
 
 .PHONY: install-mac
-install-mac: build-mac  ## Build & install to /Applications on macOS
-	cp -R "./mac/Instapaper Reader-darwin-x64/Instapaper Reader.app" /Applications
+install-mac: build  ## Build & install to /Applications (for macOS)
+	cp -R "./out/Instapaper Reader-darwin-x64/Instapaper Reader.app" /Applications || cp -R "./out/Instapaper Reader-darwin-arm64/Instapaper Reader.app" /Applications
