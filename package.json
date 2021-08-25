@@ -1,0 +1,17 @@
+{
+  "name": "Instapaper Reader",
+  "version": "1.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cdzombak/instapaper-reader.git.git"
+  },
+  "author": "Chris Dzombak",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cdzombak/instapaper-reader/issues"
+  },
+  "homepage": "https://github.com/cdzombak/instapaper-reader#readme",
+  "dependencies": {
+    "nativefier": "github:nativefier/nativefier#master"
+  }
+}
